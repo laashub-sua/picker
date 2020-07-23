@@ -63,7 +63,6 @@ def prepare_do_derive(execute_file_path, title, target_mouse_position_x, target_
     print('prepare_do_derive')
     app = Application().connect(path=execute_file_path)
     top_window = app.window(title=title)
-    top_window.print_control_identifiers(depth=2)
     return top_window
 
 
