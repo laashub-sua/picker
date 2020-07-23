@@ -3,10 +3,9 @@ import tkinter as tk
 from turtle import RawTurtle, TurtleScreen, ScrolledCanvas
 
 root = tk.Tk()
-# width, height = root.winfo_screenwidth(), root.winfo_screenheight()
-width, height = right - left, bottom - top
+width, height = root.winfo_screenwidth(), root.winfo_screenheight()
 root.overrideredirect(True)
-root.attributes('-alpha', 0.1)
+root.attributes('-alpha', 0.08)
 
 # We're not scrolling but ScrolledCanvas has useful features
 canvas = ScrolledCanvas(root)
