@@ -1,6 +1,8 @@
 comtypes==1.1.7
+numpy==1.19.1
+Pillow==7.2.0
 pynput==1.6.8
 pywin32==228
 pywinauto==0.6.8
 six==1.15.0
-wxpython
+wxPython==4.1.0

@@ -1,12 +1,9 @@
+
 from pywinauto.application import Application
 
 from component import derive_handle
+from component import draw_rect
 
-# 创建指定大小、颜色透明的图片
-# 围绕图片边缘外部举行绘制一圈矩形
-# 在指定位置显示指定图片
-def draw_rect(left, top, right, bottom):
-    pass
 
 def tree_win(win):
     position_info = win.rectangle()  # L, T, R, B    # L52, T111, R1010, B151    # 相当于左上角和右下角两个点的坐标
@@ -37,6 +34,9 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y)
         return
     win_child_list = win_panel.children()
     if len(win_child_list) < 1:
+        position_info = win_panel.element_info.rectangle
+        draw_rect.draw_rect(position_info.left, position_info.top, position_info.right - position_info.left,
+                            position_info.bottom - position_info.top)
         return win_panel
     for win_child in win_child_list:
         if condition_win_panel_not_in_area(win_child, target_mouse_position_x, target_mouse_position_y):
