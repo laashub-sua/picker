@@ -1,4 +1,3 @@
-
 from pywinauto.application import Application
 
 from component import derive_handle
@@ -29,15 +28,20 @@ def condition_win_panel_not_in_area(win_panel, target_mouse_position_x, target_m
 
 # 当目标win由多层子win_panel组成时, 一直往下取; 取到最后, 留一个疑问是否有意义
 # 当同一个点上多个win_panel时, 取z order值最大的一个win_panel
-def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y):
+def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y, win_position_level_arr):
     if condition_win_panel_not_in_area(win_panel, target_mouse_position_x, target_mouse_position_y):
         return
+    # win_panel.print_control_identifiers()
     win_child_list = win_panel.children()
     if len(win_child_list) < 1:
         position_info = win_panel.element_info.rectangle
-        draw_rect.draw_rect(position_info.left, position_info.top, position_info.right - position_info.left,
+        draw_rect.do_draw(position_info.left, position_info.top, position_info.right - position_info.left,
                             position_info.bottom - position_info.top)
-        return win_panel
+        for index in range(len(win_panel.criteria)):
+            if index == 0:
+                continue
+            win_position_level_arr.append(win_panel.criteria[index])
+        return ''
     for win_child in win_child_list:
         if condition_win_panel_not_in_area(win_child, target_mouse_position_x, target_mouse_position_y):
             continue
@@ -45,17 +49,14 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y)
         class_name = win_child.element_info.class_name
         rich_text = win_child.element_info.rich_text
         win_panel_child = win_panel.child_window(title=rich_text, class_name=class_name, auto_id=automation_id)
+        len(win_panel_child.criteria)
         try:
             win_panel_child.class_name()
-        except Exception:
+        except Exception as e:
             continue
-        #
-        #   class_name title
-        # print('automation_id: ', automation_id)
-        print('class_name: ', class_name)
-        print('rich_text: ', rich_text)
-        get_handle_info(win_panel_child, target_mouse_position_x, target_mouse_position_y)
-        print('-------------------------')
+        get_handle_info(win_panel_child, target_mouse_position_x, target_mouse_position_y, win_position_level_arr)
+        break  # 暂略
+        # print('-------------------------')
     return ''
 
 
@@ -74,5 +75,12 @@ def do_derive(target_mouse_position_x, target_mouse_position_y):
     title = 'FileZilla'
     if not derive_handle.top_window:
         derive_handle.top_window = prepare_do_derive(path, title, target_mouse_position_x, target_mouse_position_y)
-    handle_info = get_handle_info(derive_handle.top_window, target_mouse_position_x, target_mouse_position_y)
-    # print(handle_info)
+    win_position_level_arr = []
+    try:
+        get_handle_info(derive_handle.top_window, target_mouse_position_x, target_mouse_position_y,
+                        win_position_level_arr)
+        if len(win_position_level_arr) > 0:
+            print(win_position_level_arr)
+    except Exception as e:
+        print(e)
+        pass

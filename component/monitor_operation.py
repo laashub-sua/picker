@@ -8,12 +8,6 @@ from pynput import mouse
 from component import derive_handle
 from component import monitor_operation
 
-"""
-monitor the mouse: x, y
-    paint the x, y, w, h box with red color
-monitor the ctrl-keyboard
-    generate the position index value
-"""
 trigger_event_thread = None
 q = None
 
