@@ -36,28 +36,36 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
     if len(win_child_list) < 1:
         position_info = win_panel.element_info.rectangle
         draw_rect.do_draw(position_info.left, position_info.top, position_info.right - position_info.left,
-                            position_info.bottom - position_info.top)
+                          position_info.bottom - position_info.top)
         for index in range(len(win_panel.criteria)):
             if index == 0:
                 continue
             win_position_level_arr.append(win_panel.criteria[index])
-        return ''
+        return
     for win_child in win_child_list:
         if condition_win_panel_not_in_area(win_child, target_mouse_position_x, target_mouse_position_y):
             continue
         automation_id = win_child.element_info.automation_id
         class_name = win_child.element_info.class_name
         rich_text = win_child.element_info.rich_text
-        win_panel_child = win_panel.child_window(title=rich_text, class_name=class_name, auto_id=automation_id)
-        len(win_panel_child.criteria)
-        try:
-            win_panel_child.class_name()
-        except Exception as e:
-            continue
-        get_handle_info(win_panel_child, target_mouse_position_x, target_mouse_position_y, win_position_level_arr)
-        break  # 暂略
-        # print('-------------------------')
-    return ''
+        child_win_index = -1
+        while True:
+            child_win_index += 1
+            try:
+                win_panel_child = win_panel.child_window(title=rich_text, class_name=class_name, auto_id=automation_id,
+                                                         found_index=child_win_index)
+                if condition_win_panel_not_in_area(win_panel_child, target_mouse_position_x, target_mouse_position_y):
+                    continue
+                get_handle_info(win_panel_child, target_mouse_position_x, target_mouse_position_y,
+                                win_position_level_arr)
+            except Exception as e:
+                break
+
+        # try:
+        #     win_panel_child.class_name()
+        # except Exception as e:
+        #     continue
+        # break  # 暂略
 
 
 def prepare_do_derive(execute_file_path, title, target_mouse_position_x, target_mouse_position_y):
@@ -80,7 +88,10 @@ def do_derive(target_mouse_position_x, target_mouse_position_y):
         get_handle_info(derive_handle.top_window, target_mouse_position_x, target_mouse_position_y,
                         win_position_level_arr)
         if len(win_position_level_arr) > 0:
-            print(win_position_level_arr)
+            for item in win_position_level_arr:
+                print(item)
+                # print(item['class_name']+':'+item['title'])
     except Exception as e:
         print(e)
         pass
+    print('----------------------')
