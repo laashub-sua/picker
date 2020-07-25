@@ -64,7 +64,7 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
         break
 
 
-def prepare_do_derive(execute_file_path, title, target_mouse_position_x, target_mouse_position_y):
+def prepare_do_derive(execute_file_path, title):
     print('prepare_do_derive')
     app = Application().connect(path=execute_file_path)
     top_window = app.window(title=title)
@@ -78,15 +78,18 @@ def do_derive(target_mouse_position_x, target_mouse_position_y):
     path = r'C:\Program Files\FileZilla FTP Client\filezilla.exe'
     title = 'FileZilla'
     if not derive_handle.top_window:
-        derive_handle.top_window = prepare_do_derive(path, title, target_mouse_position_x, target_mouse_position_y)
+        derive_handle.top_window = prepare_do_derive(path, title)
     win_position_level_arr = []
     try:
         get_handle_info(derive_handle.top_window, target_mouse_position_x, target_mouse_position_y,
                         win_position_level_arr)
-        if len(win_position_level_arr) > 0:
-            for item in win_position_level_arr:
-                print(item)
-                # print(item['class_name']+':'+item['title'])
+        if len(win_position_level_arr) < 1:
+            return
+        print('拾取控件成功')
+        print({'path': path, 'title': title})
+        for item in win_position_level_arr:
+            print(item)
+
     except Exception as e:
         print(e)
         pass
