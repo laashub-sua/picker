@@ -1,3 +1,9 @@
+更多文档参考[docs文件夹](docs/)
+
+# preview
+
+![img](docs\preview/0.0.1.gif)
+
 # featrue
 
 自动监听鼠标所在位置
