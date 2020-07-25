@@ -58,14 +58,10 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
                     continue
                 get_handle_info(win_panel_child, target_mouse_position_x, target_mouse_position_y,
                                 win_position_level_arr)
+                break
             except Exception as e:
                 break
-
-        # try:
-        #     win_panel_child.class_name()
-        # except Exception as e:
-        #     continue
-        # break  # 暂略
+        break
 
 
 def prepare_do_derive(execute_file_path, title, target_mouse_position_x, target_mouse_position_y):
