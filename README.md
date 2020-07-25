@@ -2,7 +2,7 @@
 
 # preview
 
-![img](docs\preview/0.0.1.gif)
+![img](docs/preview/0.0.1.gif)
 
 # featrue
 
