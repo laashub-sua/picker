@@ -46,5 +46,6 @@ def monitoring_keyboard():
         h.join()
 
 
-threading.Thread(target=monitoring_mouse).start()
-threading.Thread(target=monitoring_keyboard).start()
+def do_monitoring():
+    threading.Thread(target=monitoring_mouse).start()
+    threading.Thread(target=monitoring_keyboard).start()
