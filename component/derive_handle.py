@@ -1,6 +1,7 @@
 from pywinauto.application import Application
 
 from component import derive_handle
+from component import derive_win_program
 from component import draw_rect
 
 
@@ -75,8 +76,13 @@ top_window = None
 
 
 def do_derive(target_mouse_position_x, target_mouse_position_y):
-    path = r'C:\Program Files\FileZilla FTP Client\filezilla.exe'
-    title = 'FileZilla'
+    # path = r'C:\Program Files\FileZilla FTP Client\filezilla.exe'
+    # title = 'FileZilla'
+    title, path = derive_win_program.get_win_exe_path_and_title_by_hwnd(
+        derive_win_program.get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))
+    # print(title, path)
+    # return
+
     if not derive_handle.top_window:
         derive_handle.top_window = prepare_do_derive(path, title)
     win_position_level_arr = []
