@@ -17,7 +17,6 @@ def trigger_event():
         x, y = monitor_operation.q.get()
         monitor_operation.q = queue.LifoQueue()
         derive_handle.do_derive(x, y)
-        time.sleep(0.75)
 
 
 def on_move(x, y):

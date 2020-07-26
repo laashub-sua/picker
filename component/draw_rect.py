@@ -43,5 +43,5 @@ def do_draw(x, y, width, height):
     brush = wx.Brush(transparent_colour, style=wx.BRUSHSTYLE_TRANSPARENT)
     dc.SetBackgroundMode(wx.TRANSPARENT)
 
-    refresh_screen()
+    # refresh_screen()
     dc.DrawRectangleList([(x, y, width, height)], normal_pen, brush)

@@ -38,6 +38,9 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
         position_info = win_panel.element_info.rectangle
         draw_rect.do_draw(position_info.left, position_info.top, position_info.right - position_info.left,
                           position_info.bottom - position_info.top)
+        if len(win_panel.criteria) < 1:
+            return
+        win_position_level_arr.clear()
         for index in range(len(win_panel.criteria)):
             if index == 0:
                 continue
