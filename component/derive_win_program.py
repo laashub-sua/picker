@@ -3,6 +3,8 @@ import win32con
 import win32process
 from win32gui import GetWindowRect, GetWindowText, EnumWindows, IsWindowVisible
 
+from . import derive_win_program
+
 
 def get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y):
     data = []
@@ -33,6 +35,14 @@ def get_win_exe_path_and_title_by_hwnd(hwnd):
     return title, path
 
 
+last_target_mouse_position_x, last_target_mouse_position_y = None, None
+last_path, last_title = None, None
+
+
 def do_derive(target_mouse_position_x, target_mouse_position_y):
-    return get_win_exe_path_and_title_by_hwnd(
-        get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))
+    if derive_win_program.last_target_mouse_position_x != target_mouse_position_x or derive_win_program.last_target_mouse_position_y != target_mouse_position_y:
+        derive_win_program.last_title, derive_win_program.last_path = get_win_exe_path_and_title_by_hwnd(
+            get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))
+        print("derive_win_program: title: ", derive_win_program.last_title, 'path: ', derive_win_program.last_path)
+    derive_win_program.last_target_mouse_position_x, derive_win_program.last_target_mouse_position_y = target_mouse_position_x, target_mouse_position_y
+    return derive_win_program.last_title, derive_win_program.last_path

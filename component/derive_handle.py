@@ -69,7 +69,6 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
 
 
 def prepare_do_derive(execute_file_path, title):
-    print('prepare_do_derive')
     app = Application().connect(path=execute_file_path)
     top_window = app.window(title=title)
     return top_window
@@ -77,17 +76,15 @@ def prepare_do_derive(execute_file_path, title):
 
 top_window = None
 
+last_title, last_path = None, None
+
 
 def do_derive(target_mouse_position_x, target_mouse_position_y):
-    # path = r'C:\Program Files\FileZilla FTP Client\filezilla.exe'
-    # title = 'FileZilla'
     title, path = derive_win_program.get_win_exe_path_and_title_by_hwnd(
         derive_win_program.get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))
-    # print(title, path)
-    # return
-
-    if not derive_handle.top_window:
+    if derive_handle.last_title != title or derive_handle.last_path != path:
         derive_handle.top_window = prepare_do_derive(path, title)
+    derive_handle.last_title, derive_handle.last_path = title, path
     win_position_level_arr = []
     try:
         get_handle_info(derive_handle.top_window, target_mouse_position_x, target_mouse_position_y,

@@ -1,6 +1,5 @@
 import queue
 import threading
-import time
 
 from pynput import keyboard
 from pynput import mouse
