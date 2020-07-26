@@ -34,7 +34,7 @@ draw_rect.q = queue.LifoQueue()
 threading.Thread(target=prepare_refresh_screen).start()
 
 
-def do_draw(x, y, width, height):
+def do_draw(x, y, width, height, is_need_confirm=True):
     dc = wx.ScreenDC()
     transparent_colour = wx.Colour(255, 255, 255, 0)
 
@@ -42,6 +42,6 @@ def do_draw(x, y, width, height):
     normal_pen = wx.Pen(red_colour, width=3)
     brush = wx.Brush(transparent_colour, style=wx.BRUSHSTYLE_TRANSPARENT)
     dc.SetBackgroundMode(wx.TRANSPARENT)
-
-    # refresh_screen()
+    if not is_need_confirm:
+        refresh_screen()
     dc.DrawRectangleList([(x, y, width, height)], normal_pen, brush)
