@@ -4,8 +4,17 @@ from component import derive_handle
 from component import derive_win_program
 from component import draw_rect
 
+"""
+derive handle
+"""
+
 
 def tree_win(win):
+    """
+    get the window children tree
+    :param win: win object
+    :return:
+    """
     position_info = win.rectangle()  # L, T, R, B    # L52, T111, R1010, B151    # 相当于左上角和右下角两个点的坐标
     win_data = {}
     win_data['pos'] = (position_info.left, position_info.top, position_info.right, position_info.bottom)
@@ -19,6 +28,13 @@ def tree_win(win):
 
 
 def condition_win_panel_not_in_area(win_panel, target_mouse_position_x, target_mouse_position_y):
+    """
+    condition window panel is in target area
+    :param win_panel: window children panel object
+    :param target_mouse_position_x: the target mouse position  x
+    :param target_mouse_position_y: the target mouse position y
+    :return:
+    """
     position_info = win_panel.element_info.rectangle
     if target_mouse_position_x > position_info.right or target_mouse_position_x < position_info.left:
         return True
@@ -30,6 +46,14 @@ def condition_win_panel_not_in_area(win_panel, target_mouse_position_x, target_m
 # 当目标win由多层子win_panel组成时, 一直往下取; 取到最后, 留一个疑问是否有意义
 # 当同一个点上多个win_panel时, 取z order值最大的一个win_panel
 def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y, win_position_level_arr):
+    """
+    get handle info
+    :param win_panel: window panel object
+    :param target_mouse_position_x: target mouse position x
+    :param target_mouse_position_y: target mouse position y
+    :param win_position_level_arr:  the array for window position
+    :return:
+    """
     if condition_win_panel_not_in_area(win_panel, target_mouse_position_x, target_mouse_position_y):
         return
     # win_panel.print_control_identifiers()
@@ -69,6 +93,12 @@ def get_handle_info(win_panel, target_mouse_position_x, target_mouse_position_y,
 
 
 def prepare_do_derive(execute_file_path, title):
+    """
+    prepare for do derive
+    :param execute_file_path: execute file path for program
+    :param title: the title of window
+    :return:
+    """
     app = Application().connect(path=execute_file_path)
     top_window = app.window(title=title)
     return top_window
@@ -80,6 +110,12 @@ last_title, last_path = None, None
 
 
 def do_derive(target_mouse_position_x, target_mouse_position_y):
+    """
+    do derive
+    :param target_mouse_position_x:  target mouse position x
+    :param target_mouse_position_y:  target mouse position y
+    :return:
+    """
     title, path = derive_win_program.get_win_exe_path_and_title_by_hwnd(
         derive_win_program.get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))
     if derive_handle.last_title != title or derive_handle.last_path != path:

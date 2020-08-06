@@ -11,6 +11,10 @@ q = None
 
 
 def prepare_refresh_screen():
+    """
+    prepare for refresh the full screen to clean up the last draw angle
+    :return:
+    """
     root = tk.Tk()
     root.overrideredirect(True)
     root.attributes('-alpha', 0.01)
@@ -21,6 +25,10 @@ def prepare_refresh_screen():
 
 
 def refresh_screen():
+    """
+    refresh the full screen
+    :return:
+    """
     root = draw_rect.q.get()
     draw_rect.q = queue.LifoQueue()
     root.state('zoomed')
@@ -35,6 +43,15 @@ threading.Thread(target=prepare_refresh_screen).start()
 
 
 def do_draw(x, y, width, height, is_need_confirm=True):
+    """
+    do draw
+    :param x: x
+    :param y: x
+    :param width: width
+    :param height:  height
+    :param is_need_confirm: is need confirm
+    :return:
+    """
     dc = wx.ScreenDC()
     transparent_colour = wx.Colour(255, 255, 255, 0)
 

@@ -7,6 +7,12 @@ from . import derive_win_program
 
 
 def get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y):
+    """
+    get hwnd value what the target position's program
+    :param target_mouse_position_x: target mouse position x
+    :param target_mouse_position_y: target mouse position y
+    :return:
+    """
     data = []
 
     def callback(hwnd, param):
@@ -28,6 +34,11 @@ def get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y):
 
 
 def get_win_exe_path_and_title_by_hwnd(hwnd):
+    """
+    get window execute path value and title name by hwnd value in win32 api
+    :param hwnd: hwnd value
+    :return:
+    """
     title = GetWindowText(hwnd)
     _, pid = win32process.GetWindowThreadProcessId(hwnd)
     hndl = win32api.OpenProcess(win32con.PROCESS_QUERY_INFORMATION | win32con.PROCESS_VM_READ, 0, pid)
@@ -40,6 +51,12 @@ last_path, last_title = None, None
 
 
 def do_derive(target_mouse_position_x, target_mouse_position_y):
+    """
+    do derive
+    :param target_mouse_position_x: target mouse position x
+    :param target_mouse_position_y: target mouse position y
+    :return:
+    """
     if derive_win_program.last_target_mouse_position_x != target_mouse_position_x or derive_win_program.last_target_mouse_position_y != target_mouse_position_y:
         derive_win_program.last_title, derive_win_program.last_path = get_win_exe_path_and_title_by_hwnd(
             get_target_position_hwnd(target_mouse_position_x, target_mouse_position_y))

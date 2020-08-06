@@ -12,6 +12,10 @@ q = None
 
 
 def trigger_event():
+    """
+    trigger event function
+    :return:
+    """
     while True:
         x, y = monitor_operation.q.get()
         monitor_operation.q = queue.LifoQueue()
@@ -22,6 +26,12 @@ def trigger_event():
 
 
 def on_move(x, y):
+    """
+    on move event function
+    :param x: x
+    :param y: y
+    :return:
+    """
     if not monitor_operation.trigger_event_thread:
         monitor_operation.q = queue.LifoQueue()
         monitor_operation.trigger_event_thread = threading.Thread(target=trigger_event)
@@ -35,6 +45,10 @@ def on_activate_h():
 
 
 def monitoring_mouse():
+    """
+    monitoring mouse
+    :return:
+    """
     with mouse.Listener(
             on_move=on_move) as listener:
         listener.join()
@@ -43,10 +57,18 @@ def monitoring_mouse():
 
 
 def monitoring_keyboard():
+    """
+    monitoring keyboard
+    :return:
+    """
     with keyboard.GlobalHotKeys({'<ctrl>': on_activate_h}) as h:
         h.join()
 
 
 def do_monitoring():
+    """
+    do monitoring
+    :return:
+    """
     threading.Thread(target=monitoring_mouse).start()
     threading.Thread(target=monitoring_keyboard).start()
