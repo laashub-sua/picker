@@ -15,7 +15,10 @@ def trigger_event():
     while True:
         x, y = monitor_operation.q.get()
         monitor_operation.q = queue.LifoQueue()
-        derive_handle.do_derive(x, y)
+        try:
+            derive_handle.do_derive(x, y)
+        except Exception as e:
+            print(e)
 
 
 def on_move(x, y):
